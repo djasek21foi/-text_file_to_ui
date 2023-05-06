@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,7 +80,35 @@ namespace Evaluation_Menager
 
         private void button1_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = "C:\\";  // Postavite početni direktorij pretraživanja na C:\
 
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string selectedFile = openFileDialog.FileName;
+
+                // Provjerite je li odabrana datoteka tekstualna
+                if (Path.GetExtension(selectedFile).Equals(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        // Učitajte sadržaj datoteke
+                        string fileContent = File.ReadAllText(selectedFile);
+
+                        // Ispis sadržaja datoteke u dijaloškom okviru poruke
+                        MessageBox.Show("Sadržaj odabrane datoteke:\n\n" + fileContent);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Greška prilikom čitanja datoteke: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Odabrana datoteka nije tekstualna datoteka (.txt).");
+
+                }
+            }        
         }
     }
 }
