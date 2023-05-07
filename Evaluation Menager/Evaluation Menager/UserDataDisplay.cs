@@ -129,7 +129,7 @@ namespace Evaluation_Menager
                     txtFullName.Text = value;
                     break;
                 case "Prezime":
-                    txtFullName.Text = value;
+                    txtFullName.Text += " " + value;
                     break;
                 case "Godina rođenja":
                     txtYearOfBirth.Text = value;
