@@ -8,11 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Evaluation_Menager
 {
     public partial class Form1 : Form
     {
+        public string ime { get; private set; }
+        public string Ime { get; private set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -80,6 +85,7 @@ namespace Evaluation_Menager
 
         private void button1_Click(object sender, EventArgs e)
         {
+            List<klasa2.Podaci> people = new List<klasa2.Podaci>();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = "C:\\";  // Postavite početni direktorij pretraživanja na C:\
 
@@ -92,23 +98,61 @@ namespace Evaluation_Menager
                 {
                     try
                     {
-                        // Učitajte sadržaj datoteke
-                        string fileContent = File.ReadAllText(selectedFile);
+                        string[] lines = File.ReadAllLines(selectedFile);
 
-                        // Ispis sadržaja datoteke u dijaloškom okviru poruke
-                        MessageBox.Show("Sadržaj odabrane datoteke:\n\n" + fileContent);
+                        foreach (string line in lines)
+                        {
+                            string[] parts = line.Split('=');
+                            if (parts.Length == 2)
+                            {
+                                string key = parts[0].Trim();
+                                string value = parts[1].Trim();
+                                ShowData(key, value);
+                            }
+                        }
+
+                        MessageBox.Show("Podaci uspješno učitani.");
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Greška prilikom čitanja datoteke: " + ex.Message);
+                        MessageBox.Show("Došlo je do greške prilikom čitanja datoteke: " + ex.Message);
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Odabrana datoteka nije tekstualna datoteka (.txt).");
+                    }
+            }
+        }
 
-                }
-            }        
+        private void ShowData(string key, string value)
+        {
+            switch (key)
+            {
+                case "Ime":
+                    txtFullName.Text = value;
+                    break;
+                case "Prezime":
+                    txtFullName.Text = value;
+                    break;
+                case "Godina rođenja":
+                    txtYearOfBirth.Text = value;
+                    break;
+                case "Grad rođenja":
+                    txtCity.Text = value;
+                    break;
+                case "Fakultet":
+                    txtFaculty.Text = value;
+                    break;
+                case "Uloga":
+                    txtRole.Text = value;
+                    break;
+                case "Najdraži kolegij":
+                    txtRoleSpecificAttribute.Text = value;
+                    break;
+                case "Datoteci pristupljeno puta":
+                    btnChooseFile.Text = value;
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }

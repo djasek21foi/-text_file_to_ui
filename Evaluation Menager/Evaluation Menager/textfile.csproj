@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="klasa2\Podaci.cs" />
+    <Compile Include="klasa2\ShowData.cs" />
     <Compile Include="UserDataDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
